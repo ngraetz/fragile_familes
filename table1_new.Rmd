@@ -1,0 +1,37 @@
+---
+title: "CFR Migration Tables"
+author: "Nick Graetz"
+output: pdf_document
+geometry: margin=2cm
+---
+  
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+# Load knitr package and settings
+library(knitr)
+library(data.table)
+library(ggplot2)
+library(formatR)
+library(kableExtra)
+library(RColorBrewer)
+options(scipen=999)
+#opts_chunk$set(fig.align='center', tidy=TRUE, tidy.opts=list(blank=TRUE, width.cutoff=40), warning=FALSE,message=FALSE)
+#opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before)    par(mar=c(1,1,1,1)+.1)  # smaller margin on top and right
+})
+opts_chunk$set(small.mar=TRUE)
+```
+
+```{r, echo=FALSE, eval=TRUE, results='asis'}
+table_1 <- readRDS('C:/Users/Nick/Documents/repos/fragile_familes/table_1.RDS')
+setcolorder(table_1, c('variable',paste0(1:6,'_white'), paste0(1:6,'_black')))
+t <- kable(table_1, format = 'latex', booktabs = TRUE, caption='Summary statistics for each wave, by non-Hispanic white and black.', col.names = c('',rep(paste0('Wave ', 1:6),2)), digits = 2, escape = FALSE) %>%
+   kable_styling(latex_options = c("striped","scale_down"), full_width = T, position = "center", font_size = 8) %>%
+   add_header_above(c(" " = 1, "White" = 6, "Black" = 6)) %>%
+   group_rows('Mother education', 1, 4) %>%
+   group_rows('Father education', 5, 8) %>%
+   group_rows('Mother HH poverty', 9, 13) %>%
+   group_rows('Other risks', 9, 13) %>%
+   column_spec(column = 1, width = "15em")
+print(t)
+```
