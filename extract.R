@@ -101,11 +101,11 @@ collapse_vars <- c("mother_education_1 less than hs", "mother_education_2 hs or 
 "mother_poverty_1 0-49%", "mother_poverty_2 50-99%", "mother_poverty_3 100-199%", "mother_poverty_4 200-299%", "mother_poverty_5 300%+",
 "mother_con_depression_1 yes", "mother_father_in_jail_1 yes", "mother_relation_father_1 married", "mother_relation_father_separated")
 all_waves[, N := 1]
-sample_size <- all_waves[, list(N=sum(N)), by=c('wave','race')]
+sample_size <- all_waves[!is.na(race), list(N=sum(N)), by=c('wave','race')]
 collapse_waves <- all_waves[, lapply(.SD, mean, na.rm=TRUE), by=c('wave','race'), .SDcols=collapse_vars]
 collapse_waves <- collapse_waves[!is.na(race), ]
 collapse_waves <- merge(collapse_waves, sample_size, by=c('wave','race'))
-collapse_waves <- melt(collapse_waves, id.vars = c('wave','race'), measure.vars = collapse_vars)
+collapse_waves <- melt(collapse_waves, id.vars = c('wave','race'), measure.vars = c(collapse_vars,'N'))
 collapse_waves <- dcast(collapse_waves, variable ~ wave + race, value.var = 'value')
 collapse_waves[variable=='mother_con_depression_1 yes', variable := 'Mother depressed']
 collapse_waves[variable=='mother_father_in_jail_1 yes', variable := 'Father incarcerated']
