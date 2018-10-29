@@ -24,7 +24,7 @@ options(tinytex.verbose = TRUE)
 ```
 
 ```{r, echo=FALSE, eval=TRUE, results='asis'}
-table_1 <- readRDS('C:/Users/Nick/Documents/repos/fragile_familes/table_1.RDS')
+table_1 <- readRDS('C:/Users/Nick/Documents/repos/fragile_familes/table_1_kids.RDS')
 for(v in names(table_1)[names(table_1)!='variable']) {
   table_1[, (v) := as.character(round(get(v),2))]
   table_1[get(v)=='NaN', (v) := '--']
@@ -34,7 +34,7 @@ setcolorder(table_1, c('variable',paste0('white',1:6), paste0('black',1:6)))
 table_1[, variable := gsub('%','',variable)]
 table_1[, variable := gsub('\\+','',variable)]
 table_1[, variable := gsub(', ',' or ',variable)]
-t <- kable(table_1, format = 'latex', booktabs = TRUE, caption='Summary statistics for each wave, by non-Hispanic white and black.', col.names = c('',rep(paste0('Wave ', 1:6),2)), digits = 2, escape = FALSE) %>%
+t <- kable(table_1, format = 'latex', booktabs = TRUE, caption='Summary statistics by Wave (1-6), which follow children from age 0 (Wave 1) to age 15 (Wave 6), by non-Hispanic white and black.', col.names = c('',rep(as.character(1:6),2)), digits = 2, escape = FALSE) %>%
    kable_styling(latex_options = c("striped","scale_down"), full_width = T, position = "center", font_size = 8) %>%
    add_header_above(c(" " = 1, "White" = 6, "Black" = 6)) %>%
    group_rows('Mother education', 1, 4) %>%
@@ -42,6 +42,32 @@ t <- kable(table_1, format = 'latex', booktabs = TRUE, caption='Summary statisti
    group_rows('Mother HH poverty', 9, 13) %>%
    group_rows('Other risks', 14, 17) %>%
    group_rows('', 18, 18) %>%
+   add_footnote(c('Includes only observations that have data in Wave 6.','Race is based on child self-report in Wave 6.','Poverty is a percentage of the federal threshold over this period.')) %>%
+   column_spec(column = 1, width = "15em")
+# t <- kable(table_1)
+print(t)
+```
+
+```{r, echo=FALSE, eval=TRUE, results='asis'}
+table_1 <- readRDS('C:/Users/Nick/Documents/repos/fragile_familes/table_1_mothers.RDS')
+for(v in names(table_1)[names(table_1)!='variable']) {
+  table_1[, (v) := as.character(round(get(v),2))]
+  table_1[get(v)=='NaN', (v) := '--']
+} 
+for(i in 1:6) setnames(table_1, c(paste0(i,'_white'), paste0(i,'_black')), c(paste0('white',i), paste0('black',i)))
+setcolorder(table_1, c('variable',paste0('white',1:6), paste0('black',1:6)))
+table_1[, variable := gsub('%','',variable)]
+table_1[, variable := gsub('\\+','',variable)]
+table_1[, variable := gsub(', ',' or ',variable)]
+t <- kable(table_1, format = 'latex', booktabs = TRUE, caption='Summary statistics by Wave (1-6), which follow children from age 0 (Wave 1) to age 15 (Wave 6), by non-Hispanic white and black.', col.names = c('',rep(as.character(1:6),2)), digits = 2, escape = FALSE) %>%
+   kable_styling(latex_options = c("striped","scale_down"), full_width = T, position = "center", font_size = 8) %>%
+   add_header_above(c(" " = 1, "White" = 6, "Black" = 6)) %>%
+   group_rows('Mother education', 1, 4) %>%
+   group_rows('Father education', 5, 8) %>%
+   group_rows('Mother HH poverty', 9, 13) %>%
+   group_rows('Other risks', 14, 17) %>%
+   group_rows('', 18, 18) %>%
+   add_footnote(c('Includes all observations across waves, regardless of missingness.','Race is based on mother self-report in Wave 1.','Poverty is a percentage of the federal threshold over this period.')) %>%
    column_spec(column = 1, width = "15em")
 # t <- kable(table_1)
 print(t)

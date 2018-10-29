@@ -92,3 +92,14 @@ wave,var,var_rename
 9,cf5intyr,year_father
 9,cm5intyr,year_mother
 15,cp6intyr,year_pcg
+1,m1citywt,pweight_baseline
+1,m1citywt_rep1,psu_strata_baseline1
+1,m1citywt_rep2,psu_strata_baseline2
+1,m1citywt_rep3,psu_strata_baseline3
+1,m1citywt_rep4,psu_strata_baseline4
+1,m1citywt_rep5,psu_strata_baseline5
+1,m1citywt_rep6,psu_strata_baseline6
+1,m1citywt_rep7,psu_strata_baseline7
+1,m1citywt_rep8,psu_strata_baseline8
+1,m1citywt_rep9,psu_strata_baseline9
+1,m1citywt_rep10,psu_strata_baseline10
