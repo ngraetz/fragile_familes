@@ -1,6 +1,9 @@
 library(haven)
 library(data.table)
 library(ggplot2)
+library(naniar)
+library(mice)
+library(survey)
 
 pull_wave_dta <- function(file, in_dir, cb) {
   d <- read_dta(paste0(in_dir, '/', file))
@@ -10,14 +13,14 @@ pull_wave_dta <- function(file, in_dir, cb) {
   for(v in keep_vars) setnames(d, v, cb[var==v, var_rename])
   return(d)
 }
-cb <- fread("C:/Users/Nick/Documents/repos/fragile_familes/codebook.csv")
+cb <- fread("C:/Users/ngraetz/Documents/repos/fragile_familes/codebook.csv")
 files <- c('ffdadbspv3_stata/ffdadbspv3.dta','ffmombspv3_stata/ffmombspv3.dta',
            'ffdad1ypv2_stata/ffdad1ypv2.dta','ffmom1ypv2_stata/ffmom1ypv2.dta',
            'ffmom3ypv2_stata/ffmom3ypv2.dta','ffdad3ypv2_stata/ffdad3ypv2.dta',
            'ffmom5ypv1_stata/ffmom5ypv1.dta','ffdad5ypv1_stata/ffdad5ypv1.dta',
            'ff_y9_pub1_stata/ff_y9_pub1.dta',
            'FF_Y15_pub_stata/FF_Y15_pub.dta')
-files <- lapply(files, pull_wave_dta, in_dir <- 'C:/Users/Nick/Downloads', cb=cb)
+files <- lapply(files, pull_wave_dta, in_dir <- 'C:/Users/ngraetz/Downloads', cb=cb)
 ## Save in repo so I don't have to compile every time
 saveRDS(files, 'C:/Users/Nick/Documents/repos/fragile_familes/all_waves.RDS')
 files <- readRDS('C:/Users/Nick/Documents/repos/fragile_familes/all_waves.RDS')
