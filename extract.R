@@ -22,8 +22,8 @@ files <- c('ffdadbspv3_stata/ffdadbspv3.dta','ffmombspv3_stata/ffmombspv3.dta',
            'FF_Y15_pub_stata/FF_Y15_pub.dta')
 files <- lapply(files, pull_wave_dta, in_dir <- 'C:/Users/ngraetz/Downloads', cb=cb)
 ## Save in repo so I don't have to compile every time
-saveRDS(files, 'C:/Users/Nick/Documents/repos/fragile_familes/all_waves.RDS')
-files <- readRDS('C:/Users/Nick/Documents/repos/fragile_familes/all_waves.RDS')
+saveRDS(files, 'C:/Users/ngraetz/Documents/repos/fragile_familes/all_waves.RDS')
+files <- readRDS('C:/Users/ngraetz/Documents/repos/fragile_familes/all_waves.RDS')
 
 ## For now, I think I want this long by child, wave.
 wave1 <- merge(files[[1]], files[[2]], by='idnum')
